@@ -1,15 +1,18 @@
 document.getElementById("search-btn").addEventListener("click", () => {
-  const searchText = document.getElementById("search-input").value;
-
+  const searchInput = document.getElementById("search-input");
+  const searchText = searchInput.value;
   const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`;
   fetch(url)
     .then((res) => res.json())
     .then((data) => displayPhones(data.data));
+
+    searchInput.value = '';
 });
 
 const displayPhones = (phones) => {
   // console.log(phones);
   const displayContainer = document.getElementById("display-container");
+  displayContainer.textContent = '';
   phones.forEach((phone) => {
     // console.log(phone);
     const div = document.createElement("div");
@@ -18,20 +21,21 @@ const displayPhones = (phones) => {
             <div class="card h-100 p-3">
                 <img src="${phone.image}" class="card-img-top w-50 m-auto" alt="...">
                 <div class="card-body">
-                <h5 class="card-title">Name: ${phone.phone_name}</h5>
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                <h4 class="card-title">Name: ${phone.phone_name}</h4>
+                <h5 class="card-title">Brand: ${phone.brand}</h5>
+                
                 </div>
                 <div class="text-center my-2">
                     <button onclick="getDetails('${phone.slug}')" class="btn btn-success w-50 p-2">Details</button>
                 </div>
-                <div class="card-footer">
-                    <small class="text-muted">Last updated 3 mins ago</small>
-                </div>
+                
             </div>
         </div>
         `;
     displayContainer.appendChild(div);
-  });
+    });
+
+
 };
 
 const getDetails = (id) => {
@@ -44,19 +48,64 @@ const getDetails = (id) => {
 
 const displayDetails = (detail) => {
 //   console.log(detail);
-    document.getElementById('display-text').innerHTML = `
+    if (detail.releaseDate === '') {
+        document.getElementById('display-text').innerHTML = `
     <div class="row g-0 p-3">
         <div class="col-md-4">
-        <img src="${detail.image}" class="img-fluid rounded-start" alt="...">
+        <img src="${detail.image}" class="img-fluid rounded-start mt-5" alt="...">
         </div>
         <div class="col-md-8">
         <div class="card-body">
-            <h5 class="card-title">Storage: ${detail.mainFeatures.storage}</h5>
-            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            <h5 class="card-title">Storage: ${detail.name}</h5>
+            <div class="card-footer">
+                    <small class="text-muted">Released Date: <span class="text-danger">Phone is not released yet</span></small>
+            </div>
+            
+            <div class="card  mt-3" style="width: 22rem;">
+                    <div class="card-header">
+                    Features
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">${detail.mainFeatures.storage}</li>
+                        <li class="list-group-item">${detail.mainFeatures.displaySize}</li>
+                        <li class="list-group-item">${detail.mainFeatures.chipSet}</li>
+                        <li class="list-group-item">${detail.mainFeatures.memory}</li>
+                    </ul>
+            </div>
+
         </div>
         </div>
     </div>
     `;
+    } else {
+        document.getElementById('display-text').innerHTML = `
+    <div class="row g-0 p-3">
+        <div class="col-md-4">
+        <img src="${detail.image}" class="img-fluid rounded-start mt-5" alt="...">
+        </div>
+        <div class="col-md-8">
+        <div class="card-body">
+            <h3 class="card-title ">${detail.name}</h3>
+            <div class="card-footer">
+                    <small class="text-muted">Release Date: ${detail.releaseDate}</small>
+            </div>
+
+                <div class="card  mt-3" style="width: 22rem;">
+                    <div class="card-header">
+                    Features
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">${detail.mainFeatures.storage}</li>
+                        <li class="list-group-item">${detail.mainFeatures.displaySize}</li>
+                        <li class="list-group-item">${detail.mainFeatures.chipSet}</li>
+                        <li class="list-group-item">${detail.mainFeatures.memory}</li>
+                    </ul>
+                </div>
+            
+            </div>
+        </div>
+    </div>
+    `;
+    }
 
 };
