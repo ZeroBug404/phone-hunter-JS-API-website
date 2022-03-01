@@ -1,6 +1,7 @@
 document.getElementById("search-btn").addEventListener("click", () => {
   const searchInput = document.getElementById("search-input");
   const searchText = searchInput.value;
+//   console.log(searchText);
   const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`;
   fetch(url)
     .then((res) => res.json())
@@ -9,6 +10,7 @@ document.getElementById("search-btn").addEventListener("click", () => {
     searchInput.value = '';
 });
 
+// display all search result phones 
 const displayPhones = (phones) => {
   // console.log(phones);
   const displayContainer = document.getElementById("display-container");
@@ -34,10 +36,16 @@ const displayPhones = (phones) => {
         `;
     displayContainer.appendChild(div);
     });
-
+    if (displayContainer.innerHTML == '') {
+        document.getElementById('no-phone-msg').style.display = 'block';
+    }
+    else{
+        document.getElementById('no-phone-msg').style.display = 'none';
+    }
 
 };
 
+// get display details 
 const getDetails = (id) => {
   // console.log(id);
   const url = `https://openapi.programming-hero.com/api/phone/${id}`;
@@ -46,6 +54,8 @@ const getDetails = (id) => {
     .then((data) => displayDetails(data.data));
 };
 
+
+// dispaly phone details 
 const displayDetails = (detail) => {
 //   console.log(detail);
     if (detail.releaseDate === '') {
