@@ -12,7 +12,7 @@ document.getElementById("search-btn").addEventListener("click", () => {
 
 // display all search result phones 
 const displayPhones = (phones) => {
-  // console.log(phones);
+  console.log(phones);
   const displayContainer = document.getElementById("display-container");
   displayContainer.textContent = '';
   phones.slice(0, 20).forEach((phone) => {
@@ -29,6 +29,8 @@ const displayPhones = (phones) => {
                 </div>
                 <div class="text-center my-2">
                     <button onclick="getDetails('${phone.slug}')" class="btn btn-success w-50 p-2">Details</button>
+
+                    <button onclick="getMoreDetails('${phone.slug}')" class="btn btn-success w-75 p-2 mt-3">Explore More</button>
                 </div>
                 
             </div>
@@ -59,7 +61,6 @@ const getDetails = (id) => {
 // dispaly phone details 
 const displayDetails = (detail) => {
 //   console.log(detail);
-    const sensors = detail.mainFeatures.sensors;
 
     if (detail.releaseDate === '') {
         document.getElementById('display-text').innerHTML = `
@@ -123,3 +124,36 @@ const displayDetails = (detail) => {
     }
 
 };
+
+
+// Show more detail section 
+const getMoreDetails = (id) => {
+    // console.log(id);
+    const url = `https://openapi.programming-hero.com/api/phone/${id}`;
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => displayMoreDetails(data.data));
+};
+
+const displayMoreDetails = (info) => {
+    // console.log(info);
+    const sensors = info.mainFeatures.sensors;
+    console.log(sensors);
+    sensors.forEach((element) => {
+        // console.log(element);
+        document.getElementById('more-detail').innerHTML = `
+        <div class="card border-success mb-3 w-100 m-auto" style="max-width: 22rem;">
+            <div class="card-header">More Details</div>
+            <div class="card-body text-success">
+            <p class=""><span class="text-dark fw-bold">Sensors: </span>${element}</p>
+
+            <p class="card-text"><span class="text-dark fw-bold">WLAN:</span> ${info.others.WLAN}</p>
+            <p class="card-text"><span class="text-dark fw-bold">Bluetooth:</span> ${info.others.Bluetooth}</p>
+            <p class="card-text"><span class="text-dark fw-bold"NFC:</span> ${info.others.NFC}</p>
+            <p class="card-text"><span class="text-dark fw-bold">USB:</span> ${info.others.USB}</p>
+            <p class="card-text"><span class="text-dark fw-bold">Radio:</span> ${info.others.Radio}</p>
+            </div>
+        </div>
+        `;
+    });
+}
