@@ -15,7 +15,7 @@ const displayPhones = (phones) => {
   // console.log(phones);
   const displayContainer = document.getElementById("display-container");
   displayContainer.textContent = '';
-  phones.forEach((phone) => {
+  phones.slice(0, 20).forEach((phone) => {
     // console.log(phone);
     const div = document.createElement("div");
     div.innerHTML = `
@@ -35,6 +35,7 @@ const displayPhones = (phones) => {
         </div>
         `;
     displayContainer.appendChild(div);
+    
     });
     if (displayContainer.innerHTML == '') {
         document.getElementById('no-phone-msg').style.display = 'block';
@@ -58,11 +59,13 @@ const getDetails = (id) => {
 // dispaly phone details 
 const displayDetails = (detail) => {
 //   console.log(detail);
+    const sensors = detail.mainFeatures.sensors;
+
     if (detail.releaseDate === '') {
         document.getElementById('display-text').innerHTML = `
     <div class="row g-0 p-3">
         <div class="col-md-4">
-        <img src="${detail.image}" class="img-fluid rounded-start mt-5" alt="...">
+        <img src="${detail.image}" class="img-fluid rounded-start  mt-5" alt="...">
         </div>
         <div class="col-md-8">
         <div class="card-body">
@@ -116,6 +119,7 @@ const displayDetails = (detail) => {
         </div>
     </div>
     `;
+    
     }
 
 };
