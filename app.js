@@ -149,7 +149,7 @@ const displayMoreDetails = (info) => {
 
             <p class="card-text"><span class="text-dark fw-bold">WLAN:</span> ${info.others.WLAN}</p>
             <p class="card-text"><span class="text-dark fw-bold">Bluetooth:</span> ${info.others.Bluetooth}</p>
-            <p class="card-text"><span class="text-dark fw-bold"NFC:</span> ${info.others.NFC}</p>
+            <p class="card-text"><span class="text-dark fw-bold"> NFC:</span> ${info.others.NFC}</p>
             <p class="card-text"><span class="text-dark fw-bold">USB:</span> ${info.others.USB}</p>
             <p class="card-text"><span class="text-dark fw-bold">Radio:</span> ${info.others.Radio}</p>
             </div>
